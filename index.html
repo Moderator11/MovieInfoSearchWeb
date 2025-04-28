@@ -13,24 +13,28 @@
         crossorigin="anonymous"></script> -->
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./styles/global.css">
+    <link rel="stylesheet" href="./styles/header.css">
+    <link rel="stylesheet" href="./styles/content.css">
 </head>
 
 <body>
 
     <header>
         <h1>Search Your Movie</h1>
+        <button class="wireButton" id="riskybutfunButton">Risky but fun</button>
         <div class="searchbox">
-            <input type="text">
-            <button class="wireButton">검색</button>
+            <input type="text" id="searchInput">
+            <button class="wireButton" id="searchButton">Search</button>
         </div>
     </header>
 
     <content>
-
+        <div class="cardHolder"></div>
     </content>
 
-    <script src="api.js" type="module"></script>
+    <script src="./scripts/main.js" type="module"></script>
+    <!-- <script src="./scripts/script.js" type="module"></script> -->
 
 </body>
 

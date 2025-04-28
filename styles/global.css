@@ -1,0 +1,73 @@
+* {
+    margin: 0;
+}
+
+:root {
+    --c1: rgb(30, 40, 50);
+    --c2: white;
+    --c3: black;
+    --c4: rgb(163, 163, 163);
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    animation: showUp 0.5s;
+}
+
+@keyframes showUp {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modal > div {
+    width: 50%;
+    padding: 30px;
+    background-color: var(--c2);
+}
+
+.modal > div > img {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.modal > div:nth-child(2) {
+    animation: showup 1s 0.25s forwards, showdown 1s 2s forwards;
+    opacity: 0;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: fit-content;
+    border-radius: 25px;
+}
+
+@keyframes showup {
+    0% { opacity: 0;}
+    100% { opacity: 1;}
+}
+
+@keyframes showdown {
+    0% { opacity: 1;}
+    100% { opacity: 0;}
+}
