@@ -14,7 +14,7 @@ export function ClearCard() {
 }
 
 export function FillCard(movies) {
-    if (movies === null) {
+    if (movies === null || movies.results.length === 0) {
         let card = document.createElement("div");
         card.innerHTML = "<h1>No results</h1>";
         $(".cardHolder").append(card);

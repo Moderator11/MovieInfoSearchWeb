@@ -15,6 +15,17 @@ async function Search() {
     }
 }
 
+function Debounce(func, delay) {
+    let timer;
+    return function () {
+        const args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
 $(document).on("DOMContentLoaded", async () => {
     let popularMovies = await GetPopularKoreanMovie();
     ClearCard();
@@ -23,6 +34,13 @@ $(document).on("DOMContentLoaded", async () => {
     $("#searchInput").on("keydown", function (event) {
         if (event.which === 13) Search();
     });
+
+    $("#searchInput").on(
+        "input",
+        Debounce(() => {
+            Search();
+        }, 500)
+    );
 
     $("#searchButton").on("click", async () => Search());
 
