@@ -1,3 +1,4 @@
+// https://code.visualstudio.com/docs/nodejs/working-with-javascript
 {
     "typeAcquisition": {
         "include": ["jquery"]
