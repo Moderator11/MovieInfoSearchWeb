@@ -2,18 +2,20 @@
 
 # How to run
 
-You will need valid API key from [TMDB API](https://developer.themoviedb.org/reference/intro/getting-started)
+You will need to prepare valid API key from [TMDB](https://developer.themoviedb.org/reference/intro/getting-started) and replace ${YOUR_API_KEY} from following commands.
 
 ```
-git clone
+git clone git@github.com:Moderator11/MovieInfoSearchWeb.git
 cd MovieInfoSearchWeb
 (
 echo const API_KEY_TMDB = "${YOUR_API_KEY}";
 echo(
 echo export default API_KEY_TMDB;
 ) > keys.js
-index.html
 ```
+
+Then run Live Server to open index.html  
+Opening index.html in browser as a static file won't work.
 
 # TODO
 
@@ -36,5 +38,5 @@ index.html
 
 ## Used API & Library
 
-[JQuery](https://jquery.com/)
-[TMDB API](https://developer.themoviedb.org/reference/intro/getting-started)
+-   [JQuery](https://jquery.com/)
+-   [TMDB API](https://developer.themoviedb.org/reference/intro/getting-started)
