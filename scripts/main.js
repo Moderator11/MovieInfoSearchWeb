@@ -1,5 +1,10 @@
 import { GetPopularKoreanMovie, GetSearchResult } from "./apiHandler.js";
-import { EnableRisky, ClearCard, FillCard } from "./cardHandler.js";
+import {
+    EnableRisky,
+    ClearCard,
+    FillCard,
+    GetLikedMovies,
+} from "./cardHandler.js";
 
 async function Search() {
     let query = $("#searchInput").val();
@@ -12,6 +17,7 @@ async function Search() {
 
 $(document).on("DOMContentLoaded", async () => {
     let popularMovies = await GetPopularKoreanMovie();
+    ClearCard();
     FillCard(popularMovies);
 
     $("#searchInput").on("keydown", function (event) {
@@ -25,5 +31,17 @@ $(document).on("DOMContentLoaded", async () => {
         $("#riskybutfunButton").empty();
         $("#riskybutfunButton").append("Hover your mouse over the card");
         $("#riskybutfunButton").fadeOut(3000);
+    });
+
+    $("#popularButton").on("click", async () => {
+        let popularMovies = await GetPopularKoreanMovie();
+        ClearCard();
+        FillCard(popularMovies);
+    });
+
+    $("#myLikesButton").on("click", async () => {
+        ClearCard();
+        let movies = await GetLikedMovies();
+        FillCard(movies);
     });
 });

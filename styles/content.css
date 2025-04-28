@@ -64,3 +64,8 @@ content {
     z-index: 10;
     border-radius: 10px;
 }
+
+.likeButton {
+    border-radius: 10px;
+    background-color: transparent;
+}
