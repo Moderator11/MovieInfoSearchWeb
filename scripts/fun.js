@@ -32,6 +32,7 @@ export default function ResetAnimationTarget() {
         cardX -= deltaX;
         cardY -= deltaY;
 
+        // scroll event to check mouse hover is SO HARD TO IMPLEMENT
         // console.log(mouseX, mouseY);
         // let efp = document.elementsFromPoint(mouseX, mouseY);
         // if (efp.length > 0) {

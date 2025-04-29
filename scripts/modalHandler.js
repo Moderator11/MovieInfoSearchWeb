@@ -1,5 +1,8 @@
 import { GetGenre } from "./apiHandler.js";
 
+/**
+ * Open the modal.
+ */
 export async function OpenModal(movie) {
     let modal = document.createElement("div");
     let genreList = await GetGenre();
@@ -36,6 +39,9 @@ export async function OpenModal(movie) {
     document.body.append(modal);
 }
 
+/**
+ * Closes the modal.
+ */
 export function CloseModal() {
     let modals = document.getElementsByClassName("modal");
     for (let i = 0; i < modals.length; i++) {

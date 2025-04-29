@@ -1,65 +1,100 @@
-import { GetPopularKoreanMovie, GetSearchResult } from "./apiHandler.js";
+import { GetPopularMovie, GetSearchResult } from "./apiHandler.js";
 import {
     EnableRisky,
     ClearCard,
     FillCard,
     GetLikedMovies,
+    HandleLike,
+    HandleModal,
 } from "./cardHandler.js";
 
-async function Search() {
-    let query = $("#searchInput").val();
+async function Search(query) {
     if (query.length > 0) {
         let searchResult = await GetSearchResult(query);
         ClearCard();
         FillCard(searchResult);
+    } else {
+        ClearCard();
+        let popularMovies = await GetPopularMovie();
+        FillCard(popularMovies);
     }
 }
 
-function Debounce(func, delay) {
-    let timer;
-    return function () {
-        const args = arguments;
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            func.apply(this, args);
-        }, delay);
-    };
-}
+const Debounce = (() => {
+    let waitToSearch = null;
+    return [
+        (event) => {
+            if (waitToSearch) clearTimeout(waitToSearch);
+            waitToSearch = setTimeout(() => {
+                Search(event.target.value);
+            }, 500);
+        },
+        () => {
+            if (waitToSearch) clearTimeout(waitToSearch);
+            waitToSearch = null;
+        },
+    ];
+})();
 
-$(document).on("DOMContentLoaded", async () => {
-    let popularMovies = await GetPopularKoreanMovie();
+document.addEventListener("DOMContentLoaded", async () => {
+    let popularMovies = await GetPopularMovie();
     ClearCard();
     FillCard(popularMovies);
 
-    $("#searchInput").on("keydown", function (event) {
-        if (event.which === 13) Search();
+    document.body.addEventListener("keydown", function (event) {
+        if (event.target.id === "searchInput" && event.which === 13) {
+            Debounce[1]();
+            Search(event.target.value);
+        }
     });
 
-    $("#searchInput").on(
-        "input",
-        Debounce(() => {
-            Search();
-        }, 500)
-    );
-
-    $("#searchButton").on("click", async () => Search());
-
-    $("#riskybutfunButton").on("click", () => {
-        EnableRisky();
-        $("#riskybutfunButton").empty();
-        $("#riskybutfunButton").append("Hover your mouse over the card");
-        $("#riskybutfunButton").fadeOut(3000);
+    document.body.addEventListener("input", function (event) {
+        if (event.target.id === "searchInput") {
+            Debounce[0](event);
+        }
     });
 
-    $("#popularButton").on("click", async () => {
-        let popularMovies = await GetPopularKoreanMovie();
-        ClearCard();
-        FillCard(popularMovies);
-    });
-
-    $("#myLikesButton").on("click", async () => {
-        ClearCard();
-        let movies = await GetLikedMovies();
-        FillCard(movies);
+    document.body.addEventListener("click", async function (event) {
+        switch (event.target.id) {
+            case "searchButton":
+                Debounce[1]();
+                Search();
+                break;
+            case "popularButton":
+                let popularMovies = await GetPopularMovie();
+                ClearCard();
+                FillCard(popularMovies);
+                break;
+            case "myLikesButton":
+                ClearCard();
+                let movies = await GetLikedMovies();
+                FillCard(movies);
+                break;
+            case "riskybutfunButton":
+                EnableRisky();
+                event.target.innerText = "Hover your mouse over the card";
+                setTimeout(() => {
+                    event.target.style.animation = "showDown 2s forwards";
+                    setTimeout(() => {
+                        event.target.remove();
+                    }, 2000);
+                }, 1000);
+                break;
+        }
+        let card = GetCard(event.target);
+        if (card) {
+            if (event.target.classList[0] === "likeButton") {
+                HandleLike({ currentTarget: card });
+            } else {
+                HandleModal({ currentTarget: card });
+            }
+        }
     });
 });
+
+function GetCard(element) {
+    if (element == null) return null;
+    if (element == document.body) return null;
+    if (element.classList[0] === "card") return element;
+    else return GetCard(element.parentElement);
+}

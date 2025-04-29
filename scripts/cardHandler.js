@@ -1,23 +1,32 @@
-import ResetAnimationTarget from "./script.js";
+import ResetAnimationTarget from "./fun.js";
 import { FindByExternalID, GetExternalID } from "./apiHandler.js";
 import { OpenModal } from "./modalHandler.js";
 
 let risky = false;
 
+/**
+ * Enables the fun but risky animation.
+ */
 export function EnableRisky() {
     risky = true;
     ResetAnimationTarget();
 }
 
+/**
+ * Clears the cardHolder.
+ */
 export function ClearCard() {
-    $(".cardHolder").empty();
+    document.body.getElementsByClassName("cardHolder")[0].innerHTML = "";
 }
 
+/**
+ * Fills the cardHolder with the movie list.
+ */
 export function FillCard(movies) {
     if (movies === null || movies.results.length === 0) {
         let card = document.createElement("div");
         card.innerHTML = "<h1>No results</h1>";
-        $(".cardHolder").append(card);
+        document.body.getElementsByClassName("cardHolder")[0].appendChild(card);
         return;
     }
     movies["results"].forEach((movie) => {
@@ -52,24 +61,17 @@ export function FillCard(movies) {
                     <small class="text-body-secondary">Rating: ${vote}</small>
                     <button class="likeButton">${like}</buttons>
                 </div>
-    `;
-        $(".cardHolder").append(card);
+        `;
+        document.body.getElementsByClassName("cardHolder")[0].appendChild(card);
     });
 
     risky && ResetAnimationTarget();
-
-    $(".card").each((i, card) => {
-        card.addEventListener("click", async (event) => {
-            if (event.target.classList[0] === "likeButton") {
-                HandleLike(event);
-            } else {
-                HandleModal(event);
-            }
-        });
-    });
 }
 
-function HandleLike(event) {
+/**
+ * Handle bookmark of the movie and Update UI accordingly.
+ */
+export function HandleLike(event) {
     let myLikes = localStorage.getItem("myLikes");
     if (myLikes === null) {
         localStorage.setItem("myLikes", `${event.currentTarget.movieID},`);
@@ -94,13 +96,19 @@ function HandleLike(event) {
     }
 }
 
-async function HandleModal(event) {
+/**
+ * Open modal with detailed information about the movie.
+ */
+export async function HandleModal(event) {
     let external_id = (await GetExternalID(event.currentTarget.movieID))
         .imdb_id;
     let movie = (await FindByExternalID(external_id)).movie_results[0];
     OpenModal(movie);
 }
 
+/**
+ * Fills the cardHolder with the liked movies.
+ */
 export async function GetLikedMovies() {
     let myLikes = localStorage.getItem("myLikes");
     if (myLikes === null) return null;
