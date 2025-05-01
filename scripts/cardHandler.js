@@ -22,6 +22,10 @@ export function ClearCard() {
 /**
  * Fills the cardHolder with the movie list.
  */
+
+const removeLike = "❌";
+const addLike = "👍";
+
 export function FillCard(movies) {
     if (movies === null || movies.results.length === 0) {
         let card = document.createElement("div");
@@ -41,7 +45,7 @@ export function FillCard(movies) {
         overview = overview.length == 0 ? "No Description." : overview;
 
         let myLikes = localStorage.getItem("myLikes");
-        let like = myLikes && myLikes.includes(movie.id) ? "✅" : "👍";
+        let like = myLikes && myLikes.includes(movie.id) ? removeLike : addLike;
 
         let card = document.createElement("div");
         card.classList.add("card");
@@ -76,22 +80,22 @@ export function HandleLike(event) {
     if (myLikes === null) {
         localStorage.setItem("myLikes", `${event.currentTarget.movieID},`);
         event.currentTarget.innerHTML = event.currentTarget.innerHTML.replace(
-            "👍",
-            "✅"
+            addLike,
+            removeLike
         );
     } else {
         if (myLikes.includes(event.currentTarget.movieID)) {
             myLikes = myLikes.replace(`${event.currentTarget.movieID},`, "");
             localStorage.setItem("myLikes", myLikes);
             event.currentTarget.innerHTML =
-                event.currentTarget.innerHTML.replace("✅", "👍");
+                event.currentTarget.innerHTML.replace(removeLike, addLike);
         } else {
             localStorage.setItem(
                 "myLikes",
                 myLikes + `${event.currentTarget.movieID}, `
             );
             event.currentTarget.innerHTML =
-                event.currentTarget.innerHTML.replace("👍", "✅");
+                event.currentTarget.innerHTML.replace(addLike, removeLike);
         }
     }
 }
