@@ -1,7 +1,5 @@
 import API_KEY_TMDB from "../keys.js";
 
-//https://developer.themoviedb.org/reference/movie-popular-list
-
 const option_GET = {
     method: "GET",
     headers: {

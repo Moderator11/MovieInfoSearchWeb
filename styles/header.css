@@ -7,8 +7,14 @@ header {
     justify-content: space-between;
 }
 
-header > h1 {
+header > div {
     margin-left: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header > div > h1 {
     color: var(--c2);
 }
 

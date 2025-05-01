@@ -32,22 +32,6 @@ export default function ResetAnimationTarget() {
         cardX -= deltaX;
         cardY -= deltaY;
 
-        // scroll event to check mouse hover is SO HARD TO IMPLEMENT
-        // console.log(mouseX, mouseY);
-        // let efp = document.elementsFromPoint(mouseX, mouseY);
-        // if (efp.length > 0) {
-        //     let p = document.elementsFromPoint(mouseX, mouseY)[0].parentElement;
-        //     if (cardCurrent == null) {
-        //         OnMouseEnter({ currentTarget: p });
-        //     }
-        //     if (p !== cardCurrent) {
-        //         console.log("a");
-        //         OnMouseExit();
-        //     } else {
-        //         console.log("b");
-        //     }
-        // }
-
         RenderCardTransformation();
 
         previousScrollY = currentScrollY;
@@ -59,12 +43,10 @@ function RenderCardTransformation() {
     if (cardDOMRect == null) return;
     let diffX = ((cardX - mouseX) / cardDOMRect.width) * 2;
     let diffY = ((cardY - mouseY) / cardDOMRect.height) * 2;
-    //console.log("diff : " + diffX + ", " + diffY);
     let x = diffY;
     let y = -diffX;
     let z = 0;
     let deg = 30 * Math.sqrt(x * x + y * y);
-    //console.log("rotate3d(" + x + ", " + y + ", " + z + ", " + "30deg)");
     if (cardCurrent != null)
         cardCurrent.style.transform =
             originalStyle +
@@ -81,8 +63,6 @@ function RenderCardTransformation() {
     DrawShadow(diffY);
 }
 
-//#region ShadowRendering
-
 function DrawShadow(diffY) {
     if (isNaN(diffY)) return;
     ctx.clearRect(0, 0, cvs.width, cvs.height);
@@ -96,10 +76,6 @@ function ResetShadow() {
     ctx.clearRect(0, 0, cvs.width, cvs.height);
 }
 
-//#endregion
-
-//#region MouseEventsHandling
-
 /** @param {MouseEvent} event */
 function OnMouseEnter(event) {
     cardCurrent = event.currentTarget;
@@ -110,7 +86,6 @@ function OnMouseEnter(event) {
     cvs = cardCurrent.getElementsByTagName("canvas")[0];
     ctx = cvs.getContext("2d");
     renderer = requestAnimationFrame(RenderCardTransformation);
-    //card_current.style.transform = "rotate(0.5turn)";
 }
 
 /** @param {MouseEvent} event */
@@ -124,10 +99,8 @@ function OnMouseExit(event) {
 
 /** @param {MouseEvent} event */
 function OnMouseMove(event) {
-    if (cardCurrent == null) OnMouseEnter(event); //When mouse was already over card since page load
+    if (cardCurrent == null) OnMouseEnter(event);
     mouseX = event.pageX - window.scrollX;
     mouseY = event.pageY - window.scrollY;
     renderer = requestAnimationFrame(RenderCardTransformation);
 }
-
-//#endregion
