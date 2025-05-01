@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         switch (event.target.id) {
             case "searchButton":
                 Debounce[1]();
-                Search();
+                Search(document.getElementById("searchInput").value);
                 break;
             case "popularButton":
                 let popularMovies = await GetPopularMovie();
