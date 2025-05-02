@@ -15,8 +15,19 @@ async function Try(url, options) {
         return json;
     } catch (err) {
         console.error(err);
+        Error();
         return null;
     }
+}
+
+function Error() {
+    let errorMsg = document.createElement("div");
+    errorMsg.classList.add("errorMsg");
+    errorMsg.innerText = `⚠️ 서버와 통신하던 중 문제가 발생했습니다.`;
+    document.body.appendChild(errorMsg);
+    setTimeout(() => {
+        document.body.removeChild(errorMsg);
+    }, 3000);
 }
 
 /**
