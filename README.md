@@ -4,6 +4,8 @@
 
 You will need to prepare valid API key from [TMDB](https://developer.themoviedb.org/reference/intro/getting-started) and replace ${YOUR_API_KEY} from following commands.
 
+-   This command is guaranteed to work only in Windows CMD.
+
 ```
 git clone git@github.com:Moderator11/MovieInfoSearchWeb.git
 cd MovieInfoSearchWeb
@@ -12,6 +14,15 @@ echo const API_KEY_TMDB = "${YOUR_API_KEY}";
 echo(
 echo export default API_KEY_TMDB;
 ) > keys.js
+```
+
+-   If you are using other shell e.g.) Bash, PowerShell
+    Create **keys.js** file **inside of MovieInfoSearchWeb folder** and fill it with following contents.
+-   Replace ${YOUR_API_KEY} with your actual API key.
+
+```
+const API_KEY_TMDB = "${YOUR_API_KEY}";
+export default API_KEY_TMDB;
 ```
 
 Then run Live Server to open index.html  
@@ -38,5 +49,5 @@ Opening index.html in browser as a static file won't work.
 
 ### Used API & Library
 
--   [JQuery](https://jquery.com/)
+-   ~~[JQuery](https://jquery.com/)~~
 -   [TMDB API](https://developer.themoviedb.org/reference/intro/getting-started)
